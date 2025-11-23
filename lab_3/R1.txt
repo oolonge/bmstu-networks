@@ -1,0 +1,331 @@
+Router#show running-config
+Building configuration...
+
+Current configuration : 1231 bytes
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname Router
+!
+!
+!
+!
+!
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+ --More-- 
+01:37:27: %OSPF-5-ADJCHG: Process 1, Nbr 2.2.2.2 on FastEthernet0/0 from LOADING to FULL, Loading Done
+
+01:37:32: %OSPF-5-ADJCHG: Process 1, Nbr 3.3.3.3 on FastEthernet0/1 from LOADING to FULL, Loading Done
+!
+!
+license udi pid CISCO2811/K9 sn FTX1017KM58-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 172.21.1.1 255.255.255.255
+!
+interface FastEthernet0/0
+ ip address 172.21.12.1 255.255.255.252
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ ip address 172.21.13.1 255.255.255.252
+ duplex auto
+ speed auto
+!
+interface FastEthernet1/0
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface FastEthernet1/1
+ ip address 10.0.0.1 255.255.255.252
+ duplex auto
+ speed auto
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router ospf 1
+ router-id 1.1.1.1
+ log-adjacency-changes
+ redistribute bgp 65001 subnets 
+ network 172.21.12.0 0.0.0.3 area 0
+ network 172.21.13.0 0.0.0.3 area 0
+ network 172.21.1.1 0.0.0.0 area 0
+!
+router bgp 65001
+ bgp router-id 1.1.1.1
+ bgp log-neighbor-changes
+ no synchronization
+ neighbor 10.0.0.2 remote-as 65002
+ network 172.21.0.0
+ redistribute ospf 1 
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+!
+!
+!
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+!
+!
+end
+
+Router#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2, E - EGP
+       i - IS-IS, L1 - IS-IS level-1, L2 - IS-IS level-2, ia - IS-IS inter area
+       * - candidate default, U - per-user static route, o - ODR
+       P - periodic downloaded static route
+
+Gateway of last resort is not set
+
+     10.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C       10.0.0.0/30 is directly connected, FastEthernet1/1
+L       10.0.0.1/32 is directly connected, FastEthernet1/1
+     172.21.0.0/16 is variably subnetted, 13 subnets, 3 masks
+C       172.21.1.1/32 is directly connected, Loopback0
+O       172.21.2.1/32 [110/2] via 172.21.12.2, 00:01:18, FastEthernet0/0
+O       172.21.3.1/32 [110/2] via 172.21.13.2, 00:01:18, FastEthernet0/1
+O       172.21.4.1/32 [110/3] via 172.21.13.2, 00:01:18, FastEthernet0/1
+                      [110/3] via 172.21.12.2, 00:01:18, FastEthernet0/0
+C       172.21.12.0/30 is directly connected, FastEthernet0/0
+L       172.21.12.1/32 is directly connected, FastEthernet0/0
+C       172.21.13.0/30 is directly connected, FastEthernet0/1
+L       172.21.13.1/32 is directly connected, FastEthernet0/1
+O       172.21.24.0/30 [110/2] via 172.21.12.2, 00:01:18, FastEthernet0/0
+O       172.21.34.0/30 [110/2] via 172.21.13.2, 00:01:18, FastEthernet0/1
+O       172.21.100.0/24 [110/2] via 172.21.12.2, 00:01:18, FastEthernet0/0
+O       172.21.101.0/24 [110/3] via 172.21.13.2, 00:01:18, FastEthernet0/1
+                        [110/3] via 172.21.12.2, 00:01:18, FastEthernet0/0
+O       172.21.102.0/24 [110/3] via 172.21.13.2, 00:01:18, FastEthernet0/1
+                        [110/3] via 172.21.12.2, 00:01:18, FastEthernet0/0
+     172.22.0.0/24 is subnetted, 2 subnets
+B       172.22.10.0/24 [20/0] via 10.0.0.2, 00:00:00
+B       172.22.20.0/24 [20/0] via 10.0.0.2, 00:00:00
+
+Router#
+Router#
+Router#
+Router#
+Router#
+Router#
+Router#
+Router#
+Router#
+Router#
+Router#show access-lists
+Router#show ip access-lists
+Router#show interfaces
+FastEthernet0/0 is up, line protocol is up (connected)
+  Hardware is Lance, address is 0001.6498.4601 (bia 0001.6498.4601)
+  Internet address is 172.21.12.1/30
+  MTU 1500 bytes, BW 100000 Kbit, DLY 100 usec,
+     reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, loopback not set
+  Full-duplex, 100Mb/s, media type is RJ45
+  ARP type: ARPA, ARP Timeout 04:00:00, 
+  Last input 00:00:08, output 00:00:05, output hang never
+  Last clearing of "show interface" counters never
+  Input queue: 0/75/0 (size/max/drops); Total output drops: 0
+  Queueing strategy: fifo
+  Output queue :0/40 (size/max)
+  5 minute input rate 42 bits/sec, 0 packets/sec
+  5 minute output rate 39 bits/sec, 0 packets/sec
+     36 packets input, 2860 bytes, 0 no buffer
+     Received 0 broadcasts, 0 runts, 0 giants, 0 throttles
+     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored, 0 abort
+     0 input packets with dribble condition detected
+     26 packets output, 1964 bytes, 0 underruns
+     0 output errors, 0 collisions, 1 interface resets
+     0 babbles, 0 late collision, 0 deferred
+     0 lost carrier, 0 no carrier
+     0 output buffer failures, 0 output buffers swapped out
+FastEthernet0/1 is up, line protocol is up (connected)
+  Hardware is Lance, address is 0001.6498.4602 (bia 0001.6498.4602)
+  Internet address is 172.21.13.1/30
+  MTU 1500 bytes, BW 100000 Kbit, DLY 100 usec,
+     reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, loopback not set
+  Full-duplex, 100Mb/s, media type is RJ45
+  ARP type: ARPA, ARP Timeout 04:00:00, 
+  Last input 00:00:08, output 00:00:05, output hang never
+  Last clearing of "show interface" counters never
+  Input queue: 0/75/0 (size/max/drops); Total output drops: 0
+  Queueing strategy: fifo
+  Output queue :0/40 (size/max)
+  5 minute input rate 39 bits/sec, 0 packets/sec
+  5 minute output rate 34 bits/sec, 0 packets/sec
+     32 packets input, 2640 bytes, 0 no buffer
+     Received 0 broadcasts, 0 runts, 0 giants, 0 throttles
+     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored, 0 abort
+     0 input packets with dribble condition detected
+     22 packets output, 1728 bytes, 0 underruns
+     0 output errors, 0 collisions, 1 interface resets
+     0 babbles, 0 late collision, 0 deferred
+     0 lost carrier, 0 no carrier
+     0 output buffer failures, 0 output buffers swapped out
+FastEthernet1/0 is administratively down, line protocol is down (disabled)
+  Hardware is Lance, address is 0001.c7b3.b701 (bia 0001.c7b3.b701)
+  MTU 1500 bytes, BW 100000 Kbit, DLY 100 usec,
+     reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, loopback not set
+  Full-duplex, 100Mb/s, media type is RJ45
+  ARP type: ARPA, ARP Timeout 04:00:00, 
+  Last input 00:00:08, output 00:00:05, output hang never
+  Last clearing of "show interface" counters never
+  Input queue: 0/75/0 (size/max/drops); Total output drops: 0
+  Queueing strategy: fifo
+  Output queue :0/40 (size/max)
+  5 minute input rate 0 bits/sec, 0 packets/sec
+  5 minute output rate 0 bits/sec, 0 packets/sec
+     0 packets input, 0 bytes, 0 no buffer
+     Received 0 broadcasts, 0 runts, 0 giants, 0 throttles
+     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored, 0 abort
+     0 input packets with dribble condition detected
+     0 packets output, 0 bytes, 0 underruns
+     0 output errors, 0 collisions, 2 interface resets
+     0 babbles, 0 late collision, 0 deferred
+     0 lost carrier, 0 no carrier
+     0 output buffer failures, 0 output buffers swapped out
+FastEthernet1/1 is up, line protocol is up (connected)
+  Hardware is Lance, address is 0001.c7b3.b702 (bia 0001.c7b3.b702)
+  Internet address is 10.0.0.1/30
+  MTU 1500 bytes, BW 100000 Kbit, DLY 100 usec,
+     reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, loopback not set
+  Full-duplex, 100Mb/s, media type is RJ45
+  ARP type: ARPA, ARP Timeout 04:00:00, 
+  Last input 00:00:08, output 00:00:05, output hang never
+  Last clearing of "show interface" counters never
+  Input queue: 0/75/0 (size/max/drops); Total output drops: 0
+  Queueing strategy: fifo
+  Output queue :0/40 (size/max)
+  5 minute input rate 7 bits/sec, 0 packets/sec
+  5 minute output rate 6 bits/sec, 0 packets/sec
+     17 packets input, 690 bytes, 0 no buffer
+     Received 0 broadcasts, 0 runts, 0 giants, 0 throttles
+     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored, 0 abort
+     0 input packets with dribble condition detected
+     11 packets output, 447 bytes, 0 underruns
+     0 output errors, 0 collisions, 0 interface resets
+     0 babbles, 0 late collision, 0 deferred
+     0 lost carrier, 0 no carrier
+     0 output buffer failures, 0 output buffers swapped out
+Loopback0 is up, line protocol is up (connected)
+  Hardware is Loopback
+  Internet address is 172.21.1.1/32
+  MTU 1514 bytes, BW 8000000 Kbit, DLY 5000 usec,
+     reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation LOOPBACK, loopback not set
+  Last input never, output never, output hang never
+  Last clearing of "show interface" counters never
+  Queueing strategy: fifo
+  Output queue 0/0, 0 drops; input queue 0/75, 0 drops
+  5 minute input rate 0 bits/sec, 0 packets/sec
+  5 minute output rate 0 bits/sec, 0 packets/sec
+     0 packets input, 0 bytes, 0 no buffer
+     Received 0 broadcasts, 0 runts, 0 giants, 0 throttles
+     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored, 0 abort
+     0 input packets with dribble condition detected
+     0 packets output, 0 bytes, 0 underruns
+     0 output errors, 0 collisions, 0 interface resets
+     0 babbles, 0 late collision, 0 deferred
+     0 lost carrier, 0 no carrier
+     0 output buffer failures, 0 output buffers swapped out
+Vlan1 is administratively down, line protocol is down
+  Hardware is CPU Interface, address is 000a.4153.0ab8 (bia 000a.4153.0ab8)
+  MTU 1500 bytes, BW 100000 Kbit, DLY 1000000 usec,
+     reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, loopback not set
+  ARP type: ARPA, ARP Timeout 04:00:00
+  Last input 21:40:21, output never, output hang never
+  Last clearing of "show interface" counters never
+  Input queue: 0/75/0/0 (size/max/drops/flushes); Total output drops: 0
+  Queueing strategy: fifo
+  Output queue: 0/40 (size/max)
+  5 minute input rate 0 bits/sec, 0 packets/sec
+  5 minute output rate 0 bits/sec, 0 packets/sec
+     1682 packets input, 530955 bytes, 0 no buffer
+     Received 0 broadcasts (0 IP multicast)
+     0 runts, 0 giants, 0 throttles
+     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored
+     563859 packets output, 0 bytes, 0 underruns
+     0 output errors, 23 interface resets
+     0 output buffer failures, 0 output buffers swapped out
+
+Router#show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol 
+FastEthernet0/0        172.21.12.1     YES manual up                    up 
+FastEthernet0/1        172.21.13.1     YES manual up                    up 
+FastEthernet1/0        unassigned      YES unset  administratively down down 
+FastEthernet1/1        10.0.0.1        YES manual up                    up 
+Loopback0              172.21.1.1      YES manual up                    up 
+Vlan1                  unassigned      YES unset  administratively down down
+
+Router#show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol 
+FastEthernet0/0        172.21.12.1     YES manual up                    up 
+FastEthernet0/1        172.21.13.1     YES manual up                    up 
+FastEthernet1/0        unassigned      YES unset  administratively down down 
+FastEthernet1/1        10.0.0.1        YES manual up                    up 
+Loopback0              172.21.1.1      YES manual up                    up 
+Vlan1                  unassigned      YES unset  administratively down down
+
+Router#show ip ospf neighbor
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+2.2.2.2           1   FULL/DR         00:00:32    172.21.12.2     FastEthernet0/0
+3.3.3.3           1   FULL/DR         00:00:32    172.21.13.2     FastEthernet0/1
+
+Router#show arp
+Protocol  Address          Age (min)  Hardware Addr   Type   Interface
+Internet  10.0.0.1                -   0001.C7B3.B702  ARPA   FastEthernet1/1
+Internet  10.0.0.2                4   0001.C79C.5C02  ARPA   FastEthernet1/1
+Internet  172.21.12.1             -   0001.6498.4601  ARPA   FastEthernet0/0
+Internet  172.21.12.2             3   0006.2A04.4501  ARPA   FastEthernet0/0
+Internet  172.21.13.1             -   0001.6498.4602  ARPA   FastEthernet0/1
+Internet  172.21.13.2             3   0002.1656.B501  ARPA   FastEthernet0/1
