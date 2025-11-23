@@ -1,0 +1,33 @@
+C:\>ipconfig /all
+
+FastEthernet0 Connection:(default port)
+
+   Connection-specific DNS Suffix..: 
+   Physical Address................: 00D0.D361.689C
+   Link-local IPv6 Address.........: FE80::2D0:D3FF:FE61:689C
+   IPv6 Address....................: ::
+   IPv4 Address....................: 172.21.101.10
+   Subnet Mask.....................: 255.255.255.0
+   Default Gateway.................: ::
+                                     172.21.101.1
+   DHCP Servers....................: 0.0.0.0
+   DHCPv6 IAID.....................: 
+   DHCPv6 Client DUID..............: 00-01-00-01-C3-D0-D4-34-00-D0-D3-61-68-9C
+   DNS Servers.....................: ::
+                                     0.0.0.0
+
+Bluetooth Connection:
+
+   Connection-specific DNS Suffix..: 
+   Physical Address................: 0090.0C28.71B3
+   Link-local IPv6 Address.........: ::
+   IPv6 Address....................: ::
+   IPv4 Address....................: 0.0.0.0
+   Subnet Mask.....................: 0.0.0.0
+   Default Gateway.................: ::
+                                     0.0.0.0
+   DHCP Servers....................: 0.0.0.0
+   DHCPv6 IAID.....................: 
+   DHCPv6 Client DUID..............: 00-01-00-01-C3-D0-D4-34-00-D0-D3-61-68-9C
+   DNS Servers.....................: ::
+                                     0.0.0.0
