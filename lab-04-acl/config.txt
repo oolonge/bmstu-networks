@@ -1,0 +1,383 @@
+Router0#show running-config 
+Building configuration...
+
+Current configuration : 1611 bytes
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+service password-encryption
+!
+hostname Router0
+!
+!
+!
+enable secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0
+enable password 7 0828591D
+!
+!
+!
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+!
+license udi pid CISCO2811/K9 sn FTX10179U6K-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface FastEthernet0/0
+ ip address 172.17.0.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ ip address 172.17.10.1 255.255.255.252
+ duplex auto
+ speed auto
+!
+interface FastEthernet1/0
+ no ip address
+ duplex auto
+ speed auto
+!
+interface FastEthernet1/0.17
+ encapsulation dot1Q 17
+ ip address 172.17.17.1 255.255.255.0
+ ip helper-address 172.17.0.2
+!
+interface FastEthernet1/1
+ no ip address
+ duplex auto
+ speed auto
+!
+interface FastEthernet1/1.71
+ encapsulation dot1Q 71
+ ip address 172.17.71.1 255.255.255.0
+ ip helper-address 172.17.0.2
+ ip access-group BLOCK_FTP_FROM_VLAN71 in
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+ip classless
+ip route 172.17.17.0 255.255.255.0 172.17.10.2 
+ip route 172.17.18.0 255.255.255.0 172.17.10.2 
+ip route 172.17.72.0 255.255.255.0 172.17.10.2 
+!
+ip flow-export version 9
+!
+!
+ip access-list extended BLOCK_FTP_FROM_VLAN71
+ deny tcp 172.17.71.0 0.0.0.255 any eq ftp
+ deny tcp 172.17.71.0 0.0.0.255 any eq 20
+ permit ip any any
+!
+banner motd ^C
+WARNING - WARNING - WARNING - WARNING - WARNING - WARNING - 
+WARNING^C
+!
+!
+!
+!
+line con 0
+ password 7 082243401A160912
+ login
+!
+line aux 0
+!
+line vty 0 4
+ password 7 08375857
+ login
+line vty 5 15
+ password 7 08375857
+ login
+!
+!
+!
+end
+
+Router0#show ip access-lists
+Extended IP access list BLOCK_FTP_FROM_VLAN71
+    10 deny tcp 172.17.71.0 0.0.0.255 any eq ftp
+    20 deny tcp 172.17.71.0 0.0.0.255 any eq 20
+    30 permit ip any any (6 match(es))
+
+Router0#show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol 
+FastEthernet0/0        172.17.0.1      YES NVRAM  up                    up 
+FastEthernet0/1        172.17.10.1     YES NVRAM  up                    up 
+FastEthernet1/0        unassigned      YES NVRAM  up                    up 
+FastEthernet1/0.17     172.17.17.1     YES manual up                    up 
+FastEthernet1/1        unassigned      YES NVRAM  up                    up 
+FastEthernet1/1.71     172.17.71.1     YES manual up                    up 
+Vlan1                  unassigned      YES unset  administratively down down
+
+
+
+
+
+
+Router1>en
+Password: 
+Router1#show running-config
+Building configuration...
+
+Current configuration : 1453 bytes
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+service password-encryption
+!
+hostname Router1
+!
+!
+!
+enable secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0
+enable password 7 0828591D
+!
+!
+!
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+!
+license udi pid CISCO2811/K9 sn FTX1017TUK7-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface FastEthernet0/0
+ ip address 172.17.10.2 255.255.255.252
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1.17
+ encapsulation dot1Q 17
+ ip address 172.17.18.1 255.255.255.0
+ ip helper-address 172.17.0.2
+ ip access-group BLOCK_ECHO in
+!
+interface FastEthernet0/1.71
+ encapsulation dot1Q 71
+ ip address 172.17.72.1 255.255.255.0
+ ip helper-address 172.17.0.2
+ ip access-group DENY_DHCP in
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+ip classless
+ip route 0.0.0.0 0.0.0.0 172.17.10.1 
+!
+ip flow-export version 9
+!
+!
+ip access-list extended DENY_DHCP
+ deny udp any any eq bootpc
+ deny udp any any eq bootps
+ permit ip any any
+ip access-list extended BLOCK_ECHO
+ deny icmp 172.17.18.0 0.0.0.255 any echo
+ permit icmp any any echo-reply
+ permit ip any any
+!
+banner motd ^C
+WARNING - WARNING - WARNING - WARNING - WARNING - WARNING - 
+WARNING^C
+!
+!
+!
+!
+line con 0
+ password 7 082243401A160912
+ login
+!
+line aux 0
+!
+line vty 0 4
+ password 7 08375857
+ login
+line vty 5 15
+ password 7 08375857
+ login
+!
+!
+!
+end
+
+Router1# show ip access-lists
+Extended IP access list DENY_DHCP
+    10 deny udp any any eq bootpc
+    20 deny udp any any eq bootps
+    30 permit ip any any
+Extended IP access list BLOCK_ECHO
+    10 deny icmp 172.17.18.0 0.0.0.255 any echo
+    20 permit icmp any any echo-reply
+    30 permit ip any any (3 match(es))
+
+
+
+
+
+
+DHCPServer#show running-config
+Building configuration...
+
+Current configuration : 1404 bytes
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+service password-encryption
+!
+hostname DHCPServer
+!
+!
+!
+enable secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0
+enable password 7 0828591D
+!
+!
+ip dhcp excluded-address 172.17.17.1
+ip dhcp excluded-address 172.17.71.1
+ip dhcp excluded-address 172.18.18.1
+ip dhcp excluded-address 172.17.72.1
+!
+ip dhcp pool VLAN17
+ network 172.17.17.0 255.255.255.0
+ default-router 172.17.17.1
+ip dhcp pool VLAN71
+ network 172.17.71.0 255.255.255.0
+ default-router 172.17.71.1
+ip dhcp pool VLAN17_ISLAND2
+ network 172.17.18.0 255.255.255.0
+ default-router 172.17.18.1
+ip dhcp pool VLAN71_ISLAND2
+ network 172.17.72.0 255.255.255.0
+ default-router 172.17.72.1
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+!
+license udi pid CISCO2811/K9 sn FTX10177KQK-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface FastEthernet0/0
+ ip address 172.17.0.2 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+ip classless
+ip route 0.0.0.0 0.0.0.0 172.17.0.1 
+!
+ip flow-export version 9
+!
+!
+!
+banner motd ^C
+WARNING - WARNING - WARNING - WARNING - WARNING - WARNING - 
+WARNING^C
+!
+!
+!
+!
+line con 0
+ password 7 082243401A160912
+ login
+!
+line aux 0
+!
+line vty 0 4
+ password 7 08375857
+ login
+line vty 5 15
+ password 7 08375857
+ login
+!
+!
+!
+end
+

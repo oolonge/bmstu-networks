@@ -307,15 +307,6 @@ FastEthernet1/1        10.0.0.1        YES manual up                    up
 Loopback0              172.21.1.1      YES manual up                    up 
 Vlan1                  unassigned      YES unset  administratively down down
 
-Router#show ip interface brief
-Interface              IP-Address      OK? Method Status                Protocol 
-FastEthernet0/0        172.21.12.1     YES manual up                    up 
-FastEthernet0/1        172.21.13.1     YES manual up                    up 
-FastEthernet1/0        unassigned      YES unset  administratively down down 
-FastEthernet1/1        10.0.0.1        YES manual up                    up 
-Loopback0              172.21.1.1      YES manual up                    up 
-Vlan1                  unassigned      YES unset  administratively down down
-
 Router#show ip ospf neighbor
 Neighbor ID     Pri   State           Dead Time   Address         Interface
 2.2.2.2           1   FULL/DR         00:00:32    172.21.12.2     FastEthernet0/0
